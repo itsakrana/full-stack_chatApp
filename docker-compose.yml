@@ -1,7 +1,9 @@
 version: '3.8'
+
 services:
   mongodb:
-    image: akrana2006/f-s_mongodb:v1
+    image: mongo:7
+    container_name: mongodb
     volumes:
       - mongo-data:/data/db
     environment:
@@ -13,12 +15,16 @@ services:
       - fullstack-chatapp
 
   backend:
-    image: akrana2006/f-s_backend:v1
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: full-stack_backend
+    ports:
+      - "5001:5001"
     environment:
       - NODE_ENV=production
       - MONGODB_URI=mongodb://mongoadmin:secret@mongodb:27017/dbname?authSource=admin
-      - JWT_SECRET=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJPbmxpbmUgSldUIEJ1aWxkZXIiLCJpYXQiOjE3MzI2NTMxMDcsImV4cCI6MTc2NDE4OTEwNywiYXVkIjoid3d3LmV4YW1wbGUuY29tIiwic3ViIjoianJvY2tldEBleGFtcGxlLmNvbSIsIkdpdmVuTmFtZSI6IkpvaG5ueSIsIlN1cm5hbWUiOiJSb2NrZXQiLCJFbWFpbCI6Impyb2NrZXRAZXhhbXBsZS5jb20iLCJSb2xlIjpbIk1hbmFnZXIiLCJQcm9qZWN0IEFkbWluaXN0cmF0b3IiXX0.qE3lxrcV9TM3nujRqJVeCHPd_4WFPO9eVZj8A_kjabI
+      - JWT_SECRET=Ankit@2026!SecureJWTKey#8xP4mN7qL2zR9tV
       - PORT=5001
     depends_on:
       - mongodb
@@ -26,10 +32,12 @@ services:
       - fullstack-chatapp
 
   frontend:
-    image: akrana2006/f-s_frontend:v1
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: full-stack_frontend
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
     networks:
@@ -41,4 +49,3 @@ networks:
 
 volumes:
   mongo-data:
-
