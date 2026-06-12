@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   mongodb:
-    image: iemafzal/f-s_mongodb:v1
+    image: akrana2006/f-s_mongodb:v1
     volumes:
       - mongo-data:/data/db
     environment:
@@ -13,7 +13,7 @@ services:
       - fullstack-chatapp
 
   backend:
-    image: iemafzal/f-s_backend:v1
+    image: akrana2006/f-s_backend:v1
     container_name: full-stack_backend
     environment:
       - NODE_ENV=production
@@ -26,7 +26,7 @@ services:
       - fullstack-chatapp
 
   frontend:
-    image: iemafzal/f-s_frontend:v1
+    image: akrana2006/f-s_frontend:v1
     container_name: full-stack_frontend
     ports:
       - "80:80"
